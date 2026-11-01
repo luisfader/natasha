@@ -17,3 +17,23 @@ Settings → Pages → Deploy from a branch → `main` / raíz.
 ## Novelas incluidas
 
 Дикий час · Дивљи час · Дикий час 2: Духи гор · Дивљи час: Љубав укуса малбека · Эпический матч · Дикий час: Карнавал раздора · Дивљи час 7: Плач шума · Дивљи час: Против империје друштвених мрежа · Дивљи час 6 · La hora salvaje 52 · La Sovaĝa Horo: La Savo de Zmaj · Дикий час: Венецианское колдовство · L’ora selvaggia: La stregoneria veneziana · La hora salvaje: El tango más triste
+
+## Memoria de charlas
+
+Nátasha guarda todas las conversaciones completas y las recuerda en las charlas siguientes, sin importar quién le escriba (las busca igual que las novelas y además recibe las más recientes).
+
+- **Dentro de Claude:** se guardan en la base de datos del artefacto.
+- **En GitHub Pages:** se guardan en Firebase (Firestore). Para activarlo:
+  1. En la consola de Firebase, crear un proyecto (o usar uno existente) y activar **Firestore Database**.
+  2. En *Firestore → Reglas*, por ahora (sin privacidad):
+     ```
+     rules_version = '2';
+     service cloud.firestore {
+       match /databases/{database}/documents {
+         match /conversaciones/{id} { allow read, write: if true; }
+       }
+     }
+     ```
+  3. En *Configuración del proyecto → Tus apps*, registrar una app web y copiar `apiKey` y `projectId` en la constante `FIREBASE` de `index.html`.
+
+Cada conversación es un documento de la colección `conversaciones` con los campos `inicio`, `actualizado` y `mensajes` (JSON).
